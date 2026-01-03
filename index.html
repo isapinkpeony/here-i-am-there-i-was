@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>Orb Presence</title>
 
     <style>
@@ -12,6 +15,12 @@
         background: black;
         overflow: hidden;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: none;
       }
 
       main {
@@ -25,9 +34,10 @@
         top: 0;
         left: 0;
         cursor: pointer;
+        touch-action: none;
       }
 
-      /* Hide scrollbars even if they appear */
+      /* Hide scrollbars */
       ::-webkit-scrollbar {
         display: none;
       }
