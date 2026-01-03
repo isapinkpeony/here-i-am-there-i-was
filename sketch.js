@@ -32,19 +32,29 @@ function setup() {
 
   for (let i = 0; i < 150; i++) particles.push(new Particle());
 
-  // Auto-request fullscreen on any interaction
+  // Try fullscreen on first interaction (works on both desktop and mobile)
   document.addEventListener('click', enterFullscreen, { once: true });
+  document.addEventListener('touchstart', enterFullscreen, { once: true });
   document.addEventListener('keydown', enterFullscreen, { once: true });
-  
-  // Try to enter fullscreen immediately (may be blocked by browser)
-  enterFullscreen();
+}
+
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
 function enterFullscreen() {
   if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(err => {
-      // Silently fail - browser requires user interaction first
-    });
+    // Try multiple methods for better mobile compatibility
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().catch(() => {});
+    } else if (elem.webkitRequestFullscreen) { // Safari
+      elem.webkitRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+      elem.mozRequestFullScreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+      elem.msRequestFullscreen();
+    }
   }
 }
 
@@ -84,6 +94,18 @@ function keyReleased() {
     presence = false;
     return false;
   }
+}
+
+// Mobile touch support
+function touchStarted() {
+  presence = true;
+  showInstructions = false;
+  return false; // Prevent default touch behavior
+}
+
+function touchEnded() {
+  presence = false;
+  return false;
 }
 
 function draw() {
@@ -229,15 +251,25 @@ function drawInstructions() {
   fill(0, 0, 100, textAlpha);
   
   textAlign(CENTER, CENTER);
-  textSize(32);
-  text("Hold SPACEBAR to activate", width / 2, height / 2 - 40);
   
-  textSize(16);
-  fill(0, 0, 80, textAlpha);
-  text("Press F to toggle fullscreen", width / 2, height / 2 + 20);
+  const isMobile = isMobileDevice();
   
-  if (!document.fullscreenElement) {
-    text("Click or press any key to enter fullscreen", width / 2, height / 2 + 50);
+  if (isMobile) {
+    textSize(28);
+    text("Tap and hold screen to activate", width / 2, height / 2 - 20);
+    textSize(16);
+    fill(0, 0, 80, textAlpha);
+    text("Release to deactivate", width / 2, height / 2 + 20);
+  } else {
+    textSize(32);
+    text("Hold SPACEBAR to activate", width / 2, height / 2 - 40);
+    textSize(18);
+    fill(0, 0, 80, textAlpha);
+    text("Press F to toggle fullscreen", width / 2, height / 2 + 20);
+    
+    if (!document.fullscreenElement) {
+      text("Click or press any key to enter fullscreen", width / 2, height / 2 + 50);
+    }
   }
   
   pop();
