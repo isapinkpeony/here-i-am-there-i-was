@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orb Presence</title>
+
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: black;
+        overflow: hidden;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      main {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      canvas {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+      }
+
+      /* Hide scrollbars even if they appear */
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      
+      * {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main></main>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="sketch.js"></script>
+  </body>
+</html>
